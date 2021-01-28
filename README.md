@@ -4,9 +4,9 @@
 ---
 
 ##### Integrantes:
-1. *[Poner aquí Nombre y Apellidos del integrante 1]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
-2. *[Poner aquí Nombre y Apellidos del integrante 2]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
-3. *[Poner aquí Nombre y Apellidos del integrante 3]* - *[Poner aquí su Matrícula]* - *[Poner aquí su campus]*
+1. *[Antonio Junco de Haas]* - *[A01339695]* - *[CSF]*
+2. *[Victor Coeto]* - *[A01654866]* - *[CSF]*
+3. *[Jorge Damian Palacios Hristova]* - *[A01654203]* - *[CSF]*
 
 ---
 ## 1. Aspectos generales
@@ -54,12 +54,7 @@ Como parte de la entrega final del proyecto, se debe incluir la siguiente inform
 ## 3. Solución
 
 A continuación aparecen descritos los diferentes elementos que forman parte de la solución del proyecto.
-Notas sobre geoNear
-Para el uso adecuado de $geoNear es necesario cumplir con los siguientes requisitos.
-1. Las coordenadas deben de presentarse dentro de un objeto location. Location tiene dos datos: type, con el string Point, y coordinates con un arreglo de 2 valores con la Latitud y Longitud.
-2. Las Latitudes no pueden ser mayor a 90 o menor a -90. Ya que simbolizan los polos Norte y sur. Y Longitud tiene un rango de -180 a 180.
-3. Para que se puedan usar las coordenadas correctamente se tiene que incluir un index 2dsphere. Si se cumplen los dos pasos previos se podra ejecutar el query de manera correcta.
-4. $geoNear calcula la distancia entre dos puntos sobre la superficie de la tierra en metros, los valores pueden ser muy grandes.
+
 
 ### 3.1 Modelos de *bases de datos* utilizados
 
