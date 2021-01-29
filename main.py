@@ -22,6 +22,54 @@ Hospital_insert = Hospital.insert_many([
     "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
     "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
     "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 3, "Nombre": "Hospital3", "Username": "Hospital3", "Contraseña":"Hospital3Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 4, "Nombre": "Hospital4", "Username": "Hospital4", "Contraseña":"Hospital4Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 5, "Nombre": "Hospital5", "Username": "Hospital5", "Contraseña":"Hospital5Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 6, "Nombre": "Hospital6", "Username": "Hospital6", "Contraseña":"Hospital6Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 7, "Nombre": "Hospital7", "Username": "Hospital7", "Contraseña":"Hospital7Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 8, "Nombre": "Hospital8", "Username": "Hospital8", "Contraseña":"Hospital8Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 9, "Nombre": "Hospital9", "Username": "Hospital9", "Contraseña":"Hospital9Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
+    },
+    { "_id": 10, "Nombre": "Hospital10", "Username": "Hospital10", "Contraseña":"Hospital10Pass", 
+    "Grupo_vacunacion_1a": {"_id": 1, "Mes_inicio": 1, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_1b": {"_id": 2, "Mes_inicio": 4, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2a": {"_id": 3, "Mes_inicio": 7, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0},
+    "Grupo_vacunacion_2b": {"_id": 4, "Mes_inicio": 10, "Vacunas_disponibles": 0, "Vacunas_utilizadas": 0, "Vacunas_apartadas":0}
     }
     ])
 
