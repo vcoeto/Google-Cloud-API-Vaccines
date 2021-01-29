@@ -1,0 +1,44 @@
+{
+    "Gobierno" :[
+        {
+         "_id": 1,
+         "Municipio": "Benito juárez",
+         "Username":"El beno",
+         "Password":"Elcacas",
+         "Vacunas-Disp":0,
+         "Vacunas-utl":0
+    
+     },
+
+     {
+        "_id": 2,
+        "Municipio": "Cuajimalpa",
+        "Username":"Cuajim",
+        "Password":"Elansioso",
+        "Vacunas-Disp":0,
+        "Vacunas-utl":0
+   
+    },
+
+    {
+        "_id": 3,
+        "Municipio": "Álvaro Obregón",
+        "Username":"Obre",
+        "Password":"ElcacasTu",
+        "Vacunas-Disp":0,
+        "Vacunas-utl":0
+   
+    },
+
+    {
+        "_id": 4,
+        "Municipio": "Magdalena Contreras",
+        "Username":"Mag",
+        "Password":"ElcacasTu",
+        "Vacunas-Disp":0,
+        "Vacunas-utl":0
+   
+    }
+]
+
+}
