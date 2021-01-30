@@ -39,3 +39,20 @@ def get_gobiernos():
 
 
     return jsonify(output)
+@app.route("/addvacunas",methods=["POST","GET"])
+def update_vacunas():
+    filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
+    add = 2009 #pedir la cantidad de vacunas que se van a agregar 
+    updated_data = {"$inc": {'Vacunas_Disp':add}}
+    response = collection.update_one(filt, updated_data)
+    output = "Updated"
+    return output
+
+@app.route("/remvacunas",methods=["POST","GET"])
+def rem_vacunas():
+    filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
+    add = 2009 #pedir la cantidad de vacunas que se van a restar
+    updated_data = {"$min": {'Vacunas_Disp':add}}
+    response = collection.update_one(filt, updated_data)
+    output = "Updated vacunas restadas"
+    return output
