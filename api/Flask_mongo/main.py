@@ -13,8 +13,8 @@ collection = db["Gobierno"]
 Hospital = db["Hospital"]
 
 
-template_dir = os.path.abspath('../templates')
-app = Flask(__name__,template_folder=template_dir)
+#template_dir = os.path.abspath('../templates')
+app = Flask(__name__)
 app.config["MONGO_URI"]="mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority"
 
 mongo = PyMongo(app)
@@ -24,7 +24,8 @@ mongo = PyMongo(app)
 #All the routing in our app will be mentioned here 
 #Proyecto final que se encuentra en el URI connect
 
-
+###Gobierno###
+#Default route gobierno
 @app.route('/')
 def index():
     if 'username' in session:
@@ -34,7 +35,7 @@ def index():
 #do_operations = mongo.db.User
 
 
-#When you press login
+#When you press login gobierno
 @app.route('/login',methods=['POST'])
 def login():
     users=mongo.db.Gobierno
@@ -49,7 +50,7 @@ def login():
         return 'Er'
     return 'Invalid username/password combination'
 #Register
-#When you press register
+#When you press register gobierno
 @app.route('/register', methods=['POST','GET'])
 def register():
     if request.method=='POST':
@@ -65,13 +66,80 @@ def register():
             
             #Insert in name username, and password the hash password
             #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
-            users.insert({'Username':request.form['username'], 'Password': hashpass.decode('utf-8')})
+            users.insert({'Municipio': request.form['municipio'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Vacunas_Disp': 0, 'Vacunas_utl': 0})
             session['username']=request.form['username']
             return redirect(url_for('index'))
         #Existing user was not none
         return 'That username already exists!'
     
     return render_template('register.html')
+###FinalGobierno
+
+###Hospitales###
+
+#Ruta default del hospital, 
+@app.route('/hospital')
+def index_hospital():
+    if 'username' in session:
+        return 'You are logged in as hospital ' + session['username']
+    return render_template('index_hospital.html')
+#db_operations = mongo.db.<Collection_name>
+#do_operations = mongo.db.User
+
+
+
+#When you press login
+@app.route('/login_hospital',methods=['POST'])
+def login_hospital():
+    users=mongo.db.Hospital
+    login_user = users.find_one({'Username': request.form['username']})
+
+    #I the user exists
+    if login_user:
+        #Compare the encripted password
+        if bcrypt.hashpw(request.form['pass'].encode('utf-8'),login_user['Password'].encode('utf-8'))== login_user['Password'].encode('utf-8'):
+            session['username']=request.form['username']
+            return redirect(url_for('index_hospital'))
+        return 'Er'
+    return 'Invalid username/password combination'
+
+
+@app.route('/register_hospital', methods=['POST','GET'])
+def register_hospital():
+    if request.method=='POST':
+        #Check if it is registered already
+        users = mongo.db.Hospital
+
+        #The 'username appears in the register.html. Pass username and look in database for name
+        #'Username' referse to the name column in databae, may need to change that
+        existing_user = users.find_one({'Username':request.form['username']})
+
+        #Check if the user does not exist and register it
+        if existing_user is None:
+            #Hash the password
+            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+
+            #Encuentra al gobierno correspondiente al hospital basado en en nombre del municipio
+            gobierno=mongo.db.Gobierno
+            gobierno_municipal = gobierno.find_one({'Municipio': request.form['municipio']})
+
+            if gobierno_municipal:
+                hosptial = mongo.db.Hospital
+                #Insert in name username, and password the hash password
+                #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
+                Hospital.insert({'Nombre': request.form['hospital'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Edad_minima':65,'Vacunas_disponibles':0, 'Vacunas_utilizadas':0,'id_municipal':gobierno_municipal['_id']})
+                session['username_hospital']=request.form['username']
+                return redirect(url_for('index_hospital'))
+            return 'No existe ese municipio'
+            #return 'No existe ese gobierno municipal!'
+        #Existing user was not none
+        return 'That username already exists!'
+    
+    return render_template('register_hospital.html')
+
+###FinHospitales###
+
+
 if __name__=='__main__':
     app.secret_key='secretivekey'
     app.run(debug=True)
