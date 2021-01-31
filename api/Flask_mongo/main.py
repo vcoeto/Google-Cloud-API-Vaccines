@@ -40,8 +40,15 @@ def login():
     users=mongo.db.Gobierno
     login_user = users.find_one({'Username': request.form['username']})
 
+    #I the user exists
     if login_user:
-        if bycrypt.hash(request.form['pass'].encode('utf-8'))
+        #Compare the encripted password
+        if bcrypt.hashpw(request.form['pass'].encode('utf-8'),login_user['Password'].encode('utf-8'))== login_user['Password'].encode('utf-8'):
+            session['username']=request.form['username']
+            return redirect(url_for('index'))
+        return 'Er'
+    return 'Invalid username/password combination'
+#Register
 #When you press register
 @app.route('/register', methods=['POST','GET'])
 def register():
@@ -49,13 +56,16 @@ def register():
         #Check if it is registered already
         users = mongo.db.Gobierno
         #The 'username appears in the register.html. Pass username and look in database for name
-        #'name' referse to the name column in databae, may need to change that
-        existing_user = users.find_one({'name':request.form['username']})
+        #'Username' referse to the name column in databae, may need to change that
+        existing_user = users.find_one({'Username':request.form['username']})
         #Check if the user does not exist and register it
         if existing_user is None:
+            #Hash the password
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+            
             #Insert in name username, and password the hash password
-            users.insert({'name':request.form['username'], 'password': hashpass})
+            #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
+            users.insert({'Username':request.form['username'], 'Password': hashpass.decode('utf-8')})
             session['username']=request.form['username']
             return redirect(url_for('index'))
         #Existing user was not none
