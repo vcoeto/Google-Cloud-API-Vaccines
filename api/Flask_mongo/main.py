@@ -194,3 +194,13 @@ def rem_vacunas():
     response = collection.update_one(filt, updated_data)
     output = "Updated vacunas restadas"
     return output
+
+#esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
+@app.route("/repartir", methods=["POST","GET"])
+def reparto():
+    hosp = 2
+    vac = 123
+    grupo = 2 
+    repartos.insert_one({'id_Hospital': hosp, 'Vacunas':vac, 'id_Municipal':3, 'estado':'Enviado'}) 
+    output = "Repartos funciona"
+    return output
