@@ -189,7 +189,8 @@ def update_vacunas():
 
 @app.route("/remvacunas",methods=["POST","GET"])
 def rem_vacunas():
-    filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
+    munc = 'Cuajimalpa' #pedir el municicpio
+    filt = {'Municipio': munc}
     add = 2009 #pedir la cantidad de vacunas que se van a restar
     updated_data = {"$min": {'Vacunas_Disp':add}}
     response = collection.update_one(filt, updated_data)
@@ -201,7 +202,36 @@ def rem_vacunas():
 def reparto():
     hosp = 2
     vac = 123
-    grupo = 2 
     repartos.insert_one({'id_Hospital': hosp, 'Vacunas':vac, 'id_Municipal':3, 'estado':'Enviado'}) 
     output = "Repartos funciona"
     return output
+
+
+@app.route('/register_user', methods=['POST','GET'])
+def register_user():
+    if request.method=='POST':
+        #Check if it is registered already
+        users = mongo.db.User
+
+        #The 'username appears in the register.html. Pass username and look in database for name
+        #'Username' referse to the name column in databae, may need to change that
+        existing_user = users.find_one({'RFC':request.form['rfc']})
+
+        #Check if the user does not exist and register it
+        if existing_user is None:
+            #Encuentra al gobierno correspondiente al hospital basado en en nombre del municipio
+            hospital=mongo.db.Hospital
+            nombhosp = hospital.find_one({'Hospital': request.form['Hospital'],'Edad_minima ': request.form['edad']})
+        
+            if nombhosp:
+                add =1
+                users.insert({'RFC':request.form['rfc'], 'Edad':request.form['edad'], 'Hospital': request.form['hospital'], 'Vacunado':'S'})
+                Hospital.update({"$inc": {'Vacunas apartadas':add}})
+                return redirect(url_for('index_hospital'))
+            return 'por el momento no estamos vacunando a las personas de su edad'
+        #Existing user was not none
+        return 'Este usuario ya registro una vacuna'
+    
+    return render_template('uservacuna.html')
+
+###Fin usuarios registros y aparatado de vacunas ###
