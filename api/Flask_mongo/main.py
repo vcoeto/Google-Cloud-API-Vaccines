@@ -207,31 +207,27 @@ def reparto():
     return output
 
 
-@app.route('/register_user', methods=['POST','GET'])
+@app.route('/register_user', methods=['POST', 'GET'])
 def register_user():
-    if request.method=='POST':
-        #Check if it is registered already
-        users = mongo.db.User
+    if request.method == 'POST':
+        users = mongo.db.User  
+        hospital=mongo.db.Hospital
+        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
+        existing_user = users.find_one({'RFC':request.form['RFC']})
+        if nombhosp != None and existing_user == None:
+            testedad = request.form['Edad']
+            testedad = int(testedad)
+            if testedad >= nombhosp["Edad_minima"] :
+                if nombhosp["Vacunas_disponibles"] > 0:
+                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    add = 1
+                    temp = {"$inc": {'Vacunas_apartadas':add}}
+                    filt = {'Nombre': request.form['Hospital']}
+                    hospital.update_one(filt, temp)
+                    #flash("Se apartó la vacuna y se actualizo el hospital")
+                    return 'updated hospital y created user'
 
-        #The 'username appears in the register.html. Pass username and look in database for name
-        #'Username' referse to the name column in databae, may need to change that
-        existing_user = users.find_one({'RFC':request.form['rfc']})
-
-        #Check if the user does not exist and register it
-        if existing_user is None:
-            #Encuentra al gobierno correspondiente al hospital basado en en nombre del municipio
-            hospital=mongo.db.Hospital
-            nombhosp = hospital.find_one({'Hospital': request.form['Hospital'],'Edad_minima ': request.form['edad']})
-        
-            if nombhosp:
-                add =1
-                users.insert({'RFC':request.form['rfc'], 'Edad':request.form['edad'], 'Hospital': request.form['hospital'], 'Vacunado':'S'})
-                Hospital.update({"$inc": {'Vacunas apartadas':add}})
-                return redirect(url_for('index_hospital'))
-            return 'por el momento no estamos vacunando a las personas de su edad'
-        #Existing user was not none
-        return 'Este usuario ya registro una vacuna'
-    
-    return render_template('uservacuna.html')
-
-###Fin usuarios registros y aparatado de vacunas ###
+                return 'Ya no quedan vacunas en este hospital'
+            return 'Por el momento no estamos vacunando a las personas de su edad'
+        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
+    return render_template('register_user.html')
