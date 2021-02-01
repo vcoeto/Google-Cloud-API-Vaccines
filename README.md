@@ -49,7 +49,10 @@ Como parte de la entrega final del proyecto, se debe incluir la siguiente inform
 
 ## 2. Descripción del proyecto
 
-*[Incluya aquí la descripción del proyecto seleccionado.]*
+* El proyecto vacunanado a México consiste en una aplicación en dónde permite llevar acabo un inventario de las vacunas que se usan por municpio y por hospital en la ciudad de México cada municipio cuenta con un número de vacunas que se 
+  distribuyen en los hospitales del mismo através de un reparto que se hacen los hospitales, estos cuenta de la misma manera con un inventario de vacunas que se han utilizado, las vacunas disponibles y las vacunas que han sido apartadas 
+  para el grupo de edad que se está vacunando, al igual cómo usuario se presenta la opción de registrarse para apartar la vacuna en el hospital que escoja de su municipio, el usuario solo podrá apartar una vacuna si el hospital esta vacunando 
+  a lsa personas de su edad si no tendrá que esperar a que eso cambie. 
 
 ## 3. Solución
 
@@ -58,7 +61,7 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 
 ### 3.1 Modelos de *bases de datos* utilizados
 
-*[Incluya aquí una explicación del análisis realizado y la justificación de los modelos de *bases de datos* seleccionados. Incluya todo lo que considere necesario para que una persona sin conocimientos técnicos pueda entender de que trata su solución.]*
+* 
 
 ### 3.2 Arquitectura de la solución
 
