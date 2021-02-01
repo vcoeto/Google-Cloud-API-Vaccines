@@ -231,3 +231,12 @@ def register_user():
             return 'Por el momento no estamos vacunando a las personas de su edad'
         return f'<h1>El usuario ya existe o el hospital no existe </h1>'
     return render_template('register_user.html')
+
+#TODO finish general success for any query
+@app.route('/success', methods = ["GET"])
+def success():
+    if request.method == 'GET':
+        value = 'index'
+        return redirect(url_for(value))
+    
+    return render_template('success.html')
