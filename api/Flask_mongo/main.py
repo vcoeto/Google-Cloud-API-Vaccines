@@ -11,6 +11,7 @@ cluster = MongoClient("mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongo
 db = cluster["ProyectoFinal"]
 collection = db["Gobierno"]
 Hospital = db["Hospital"]
+repartos = db["Reparto"]
 
 
 #template_dir = os.path.abspath('../templates')
