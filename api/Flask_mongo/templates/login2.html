@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block head %}
+<h1>Home Gobierno</h1>
+{% endblock %}
+{% block body %} 
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form method=POST action="{{ url_for('login2') }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Hospital</label>
+                    <input type="text" class="form-control" name="hospital" placeholder="Hospital">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Vacunas</label>
+                    <input type="int" class="form-control" name="vacunas" placeholder="Vacunas">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}

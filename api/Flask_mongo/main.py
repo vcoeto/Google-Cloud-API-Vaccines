@@ -30,11 +30,8 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return 'You are logged in as ' + session['username']
+        return 'You are logged in as ' + session['username']+render_template('register_reparto.html')
     return render_template('index.html')
-#db_operations = mongo.db.<Collection_name>
-#do_operations = mongo.db.User
-
 
 #When you press login gobierno
 @app.route('/login',methods=['POST'])
@@ -42,7 +39,7 @@ def login():
     users=mongo.db.Gobierno
     login_user = users.find_one({'Username': request.form['username']})
 
-    #I the user exists
+    #If the user exists
     if login_user:
         #Compare the encripted password
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'),login_user['Password'].encode('utf-8'))== login_user['Password'].encode('utf-8'):
@@ -50,21 +47,24 @@ def login():
             return redirect(url_for('index'))
         return 'Er'
     return 'Invalid username/password combination'
+
 #Register
 #When you press register gobierno
 @app.route('/register', methods=['POST','GET'])
 def register():
     if request.method=='POST':
+
         #Check if it is registered already
         users = mongo.db.Gobierno
         #The 'username appears in the register.html. Pass username and look in database for name
         #'Username' referse to the name column in databae, may need to change that
         existing_user = users.find_one({'Username':request.form['username']})
+
         #Check if the user does not exist and register it
         if existing_user is None:
             #Hash the password
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
-            
+
             #Insert in name username, and password the hash password
             #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
             users.insert({'Municipio': request.form['municipio'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Vacunas_Disp': 0, 'Vacunas_utl': 0})
@@ -74,7 +74,7 @@ def register():
         return 'That username already exists!'
     
     return render_template('register.html')
-###FinalGobierno
+###FinalGobierno###
 
 ###Hospitales###
 
@@ -84,10 +84,6 @@ def index_hospital():
     if 'username' in session:
         return 'You are logged in as hospital ' + session['username']
     return render_template('index_hospital.html')
-#db_operations = mongo.db.<Collection_name>
-#do_operations = mongo.db.User
-
-
 
 #When you press login
 @app.route('/login_hospital',methods=['POST'])
@@ -95,14 +91,14 @@ def login_hospital():
     users=mongo.db.Hospital
     login_user = users.find_one({'Username': request.form['username']})
 
-    #I the user exists
+    #If the user exists
     if login_user:
         #Compare the encripted password
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'),login_user['Password'].encode('utf-8'))== login_user['Password'].encode('utf-8'):
             session['username']=request.form['username']
             return redirect(url_for('index_hospital'))
-        return 'Er'
-    return 'Invalid username/password combination'
+        return 'Invalid username/password combination for hospital'
+    return 'Invalid username/password combination for hospital'
 
 
 @app.route('/register_hospital', methods=['POST','GET'])
@@ -110,7 +106,6 @@ def register_hospital():
     if request.method=='POST':
         #Check if it is registered already
         users = mongo.db.Hospital
-
         #The 'username appears in the register.html. Pass username and look in database for name
         #'Username' referse to the name column in databae, may need to change that
         existing_user = users.find_one({'Username':request.form['username']})
@@ -139,14 +134,67 @@ def register_hospital():
     return render_template('register_hospital.html')
 
 ###FinHospitales###
+#End of frontend login
+##############################################################################
+
+###Creacion de repartos###
+@app.route('/register_reparto',methods=['POST','GET'])
+def register_reparto():
+    if request.method=='POST':
+        #Check if it is registered already
+        users = mongo.db.Gobierno
+        hospital = mongo.db.Hospital
+        reparto = mongo.db.Reparto
+        existing_hospital = hospital.find_one({'Nombre':request.form['hospital']})
+        existing_user = users.find_one({'Username':session['username']})
+        vacunas_string =request.form['vacunas']
+        #DELETE reparto.insert({'id_Hospital': 0, 'Vacunas':request.form['vacunas'], 'id_Municipal': 0,'estado': 'enviado'})
+        #Check if the user does not exist and register it
+        if existing_hospital:
+            reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': existing_user['_id'],'estado': 'enviado'})
+
+            #reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': session['id'],'estado': 'enviado'})
+            #DELETE session['username']=request.form['username']
+            return redirect(url_for('index'))
+        return 'NO EXISTE HOSPITAL'
+    return render_template('register_reparto.html')
+
+
+
+
+###Fin creacion de repartos###
+
 
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
     app.run(debug=True)
 
-#End of frontend login
-##############################################################################
+
+#reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': session['id'],'estado': 'enviado'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -194,14 +242,4 @@ def rem_vacunas():
     updated_data = {"$min": {'Vacunas_Disp':add}}
     response = collection.update_one(filt, updated_data)
     output = "Updated vacunas restadas"
-    return output
-
-#esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
-@app.route("/repartir", methods=["POST","GET"])
-def reparto():
-    hosp = 2
-    vac = 123
-    grupo = 2 
-    repartos.insert_one({'id_Hospital': hosp, 'Vacunas':vac, 'id_Municipal':3, 'estado':'Enviado'}) 
-    output = "Repartos funciona"
     return output
