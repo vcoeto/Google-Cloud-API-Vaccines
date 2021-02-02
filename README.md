@@ -54,6 +54,14 @@ Como parte de la entrega final del proyecto, se debe incluir la siguiente inform
   para el grupo de edad que se está vacunando, al igual cómo usuario se presenta la opción de registrarse para apartar la vacuna en el hospital que escoja de su municipio, el usuario solo podrá apartar una vacuna si el hospital esta vacunando 
   a lsa personas de su edad si no tendrá que esperar a que eso cambie. 
 
+### 2.1 Casos de negocio 
+    Para este proyecto se tomaron en cuenta los siguientes casos de negocio:
+
+        * El inicio de sesión de Hospital y Gobierno al igual que el registro de cada uno 
+        * El reparto de vacunas por parte del Gobierno hacia los Hospitales de su localidad 
+        * Los hospitales tienen un inventario con sus vacunas utilizadas, disponiples ya apartadas y pueden acepatar el reparto que hace el gobierno sumandolas a las vacunas disponibles.
+        * Los usuarios tienen la opción de llenar una forma para apartar una vacuna 
+
 ## 3. Solución
 
 A continuación aparecen descritos los diferentes elementos que forman parte de la solución del proyecto.
@@ -64,7 +72,9 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 * Para la solución de este proyecto se utilizo mongodb para almacenar los gobiernos, hospitales, el reparto que se hace de las vacunas y un registro de los usuarios que hacen un aparatdo de la vacuna, el modelo se presenta a continuación de 
 cómo está estructurada la base de datos en la parte de Mongodb :
 
-* Se escogió esta base de datos debido a 
+* Se escogió esta base de datos debido  a que es una base de datos NoSQL que es de las más usadas y permite la integración con otras bases de datos, de igual manera permite manejar grandes cantidades de datos y este tipo de base de datos no
+  necesita un modelo entidad relación lo cual hace más sencillo a la hora de inserta información en las diferentes colecciones y permite hacer relaciones de mejor forma con las diferentes colecciones y de la misma manera permite hacer consultas optimizadas
+  al igual que tiene una gran capacidad de escalabilidad. 
 
 ### 3.2 Arquitectura de la solución
 
@@ -83,8 +93,25 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 *[Incluya aquí una explicación de la solución utilizada para implementar la API del proyecto. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
 
 #### 3.4.1 Lenguaje de programación
+El lenguaje que se utilizo para la arquitectura se uso Python. 
+
 #### 3.4.2 Framework
+El framework que se usa es Flask 
+
 #### 3.4.3 Librerías de funciones o dependencias
+
+Flask
+jsonify
+request
+redirect
+render_template 
+url_for 
+session 
+MongoClient.-  Conexión con mongodb
+pymongo .- Conexión con mognodb y sus operaciones dentro de él 
+ObjectId
+bycript. - Hash de passwords 
+os 
 
 *[Incluya aquí una explicación de cada uno de los endpoints que forman parte de la API. Cada endpoint debe estar correctamente documentado.]*
 

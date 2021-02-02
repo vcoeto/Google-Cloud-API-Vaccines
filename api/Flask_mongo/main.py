@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"]="mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority"
 
 mongo = PyMongo(app)
-##############################################################33
+##############################################################
 #Front-end login
 
 #All the routing in our app will be mentioned here 
