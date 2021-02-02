@@ -184,7 +184,7 @@ def accept_reparto(oid):
     reparto=reparto_collection.find_one({'_id':ObjectId(oid)})
     reparto['estado']="aceptado"
     reparto_collection.save(reparto)
-    return 'Oi, tryin to work'+render_template('accept_reparto.html',reparto=reparto)
+    return 'Oi, trying to work'+render_template('accept_reparto.html',reparto=reparto)
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
@@ -193,59 +193,37 @@ if __name__=='__main__':
 
 #reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': session['id'],'estado': 'enviado'})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@app.route("/gobierno",methods = ["GET"])
-def get_gobiernos():
-    all_gobiernos = list(collection.find({}))
-    return json.dumps(all_gobiernos, default=json_util.default)
-
 from flask import Flask, jsonify
 from pymongo import MongoClient
 import json
 from bson import json_util
 
+#registro de usuario para apartar la vacuna 
+@app.route('/register_user', methods=['POST', 'GET'])
+def register_user():
+    if request.method == 'POST':
+        users = mongo.db.User  
+        hospital=mongo.db.Hospital
+        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
+        existing_user = users.find_one({'RFC':request.form['RFC']})
+        if nombhosp != None and existing_user == None:
+            testedad = request.form['Edad']
+            testedad = int(testedad)
+            if testedad >= nombhosp["Edad_minima"] :
+                if nombhosp["Vacunas_disponibles"] > 0:
+                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    add = 1
+                    temp = {"$inc": {'Vacunas_apartadas':add}}
+                    filt = {'Nombre': request.form['Hospital']}
+                    hospital.update_one(filt, temp)
+                    #flash("Se apartó la vacuna y se actualizo el hospital")
+                    return 'updated hospital y created user'
 
+                return 'Ya no quedan vacunas en este hospital'
+            return 'Por el momento no estamos vacunando a las personas de su edad'
+        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
+    return render_template('register_user.html')
 
-@app.route('/gobiernos',methods = ['GET'])
-def get_gobiernos():
-    filt = {'_id': 1}
-    users = collection.find(filt)
-    output = [{'_id': user['_id'],
-    'Municipio': user['Municipio'],
-    'Username' : user['Username'],
-    'Password': user['Password'],
-    'Vacunas-Disp': user['Vacunas-Disp'],
-    'Vacunas-utl': user['Vacunas-utl']
-    }
-    for user in users
-    ]
-
-
-    return jsonify(output)
 @app.route("/addvacunas",methods=["POST","GET"])
 def update_vacunas():
     filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
@@ -275,30 +253,6 @@ def reparto():
     return output
 
 
-@app.route('/register_user', methods=['POST', 'GET'])
-def register_user():
-    if request.method == 'POST':
-        users = mongo.db.User  
-        hospital=mongo.db.Hospital
-        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
-        existing_user = users.find_one({'RFC':request.form['RFC']})
-        if nombhosp != None and existing_user == None:
-            testedad = request.form['Edad']
-            testedad = int(testedad)
-            if testedad >= nombhosp["Edad_minima"] :
-                if nombhosp["Vacunas_disponibles"] > 0:
-                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
-                    add = 1
-                    temp = {"$inc": {'Vacunas_apartadas':add}}
-                    filt = {'Nombre': request.form['Hospital']}
-                    hospital.update_one(filt, temp)
-                    #flash("Se apartó la vacuna y se actualizo el hospital")
-                    return 'updated hospital y created user'
-
-                return 'Ya no quedan vacunas en este hospital'
-            return 'Por el momento no estamos vacunando a las personas de su edad'
-        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
-    return render_template('register_user.html')
 
 #TODO finish general success for any query
 @app.route('/success', methods = ["GET"])

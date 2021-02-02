@@ -61,7 +61,10 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 
 ### 3.1 Modelos de *bases de datos* utilizados
 
-* 
+* Para la solución de este proyecto se utilizo mongodb para almacenar los gobiernos, hospitales, el reparto que se hace de las vacunas y un registro de los usuarios que hacen un aparatdo de la vacuna, el modelo se presenta a continuación de 
+cómo está estructurada la base de datos en la parte de Mongodb :
+
+* Se escogió esta base de datos debido a 
 
 ### 3.2 Arquitectura de la solución
 
@@ -101,4 +104,15 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 
 ## 4. Referencias
 
-*[Incluya aquí las referencias a sitios de interés, datasets y cualquier otra información que haya utilizado para realizar el proyecto y que le puedan ser de utilidad a otras personas que quieran usarlo como referencia]*
+* Algunos sitios que fueron usados para este proyecto fueron los siguientes: 
+
+* https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/ 
+
+* https://www.youtube.com/watch?v=vVx1737auSE
+
+* https://flask-pymongo.readthedocs.io/en/latest/
+
+* https://dev.to/paurakhsharma/flask-rest-api-part-1-using-mongodb-with-flask-3g7d 
+
+
+
