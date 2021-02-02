@@ -100,30 +100,20 @@ El framework que se usa es Flask
 
 #### 3.4.3 Librerías de funciones o dependencias
 
-Flask
-jsonify
-request
-redirect
-render_template 
-url_for 
-session 
-MongoClient.-  Conexión con mongodb
-pymongo .- Conexión con mognodb y sus operaciones dentro de él 
-ObjectId
-bycript. - Hash de passwords 
-os 
+* Flask.- el framework de donde vienen las dependecias para hacer la parte web de la aplicación
+* jsonify
+* request
+* redirect
+* render_template 
+* url_for 
+* session 
+* MongoClient.-  Conexión con mongodb
+* pymongo .- Conexión con mognodb y sus operaciones dentro de él 
+* ObjectId
+* bycript. - Hash de passwords 
+* os 
 
 *[Incluya aquí una explicación de cada uno de los endpoints que forman parte de la API. Cada endpoint debe estar correctamente documentado.]*
-
-*[Por cada endpoint debe incluir lo siguiente:]*
-
-* **Descripción**:
-* **URL**:
-* **Verbos HTTP**:
-* **Headers**:
-* **Formato JSON del cuerpo de la solicitud**: 
-* **Formato JSON de la respuesta**:
-* **Códigos de error**:
 
 ## 3.5 Pasos a seguir para utilizar el proyecto
 
