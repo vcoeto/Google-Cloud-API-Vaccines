@@ -1,19 +1,31 @@
 {% extends "layout.html" %}
 {% block head %}
-<h1>Home Hospital</h1>
+<h1>Home Hospital: {{nombre}}</h1>
 {% endblock %}
 {% block body %} 
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <form method=POST action="{{ url_for('accept_reparto') }}">
+            <h3>Hospital: {{hospital.Nombre}}</h3>
+            <h5>Vacunas disponibles: {{hospital.Vacunas_disponibles}}</h5>
+            <h5>Vacunas utilizadas: {{hospital.Vacunas_utilizadas}}</h5>
+            <h5>Vacunas apartadas: {{hospital.Vacunas_apartadas}}</h5>
                 <ul class="list-group t20">
+                    <!--
+                        A for to iterate all reparto, and and if to only show those that haven't been accepted, else to shw the accepted
+                    -->
                     {% for reparto in reparto %}
-                    <a href="{{url_for('main.accept_reparto',oid=reparto._id) }}">
-                    <li class="lit-group-item">{{reparto.Vacunas}}</li>
+                    {% if reparto.estado =='enviado'%}
+                    <a href="{{url_for('accept_reparto',oid=reparto._id) }}">
+                        
+                    <li class="lit-group-item ">Vacunas enviadas: {{reparto.Vacunas}}</li>
+                    
+                    
                     </a>
+                    {% else%}
+                    <li class="lit-group-item ">Vacunas aceptadas: {{reparto.Vacunas}}</li>
+                    {% endif %}
                     {% endfor %}
-                    <li class="lit-group-item">Auxilio2</li>
                 </ul>
                 <!--
 
@@ -28,7 +40,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
             -->
-            </form>
+            
             <br>
         </div>
     </div>

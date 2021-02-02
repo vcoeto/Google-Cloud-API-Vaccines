@@ -8,6 +8,7 @@ from flask_pymongo import PyMongo
 #Hash de password
 import bcrypt
 import os
+
 cluster = MongoClient("mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority")
 db = cluster["ProyectoFinal"]
 collection = db["Gobierno"]
@@ -93,14 +94,20 @@ def index_hospital():
         #return 'You are logged in as hospital ' + session['username']
     return render_template('index_hospital.html')
 
-#/home url, muestra a register_reparto.html
+#/home url, muestra /home_hospital.html
 @app.route('/home_hospital')
 def home_hospital():
-    print("IN ACCEPT REPARTO")
     reparto_collection=mongo.db.Reparto
-    reparto = reparto_collection.find()
-    print(reparto)
-    return 'You are logged in as hospital ' + session['username']+render_template('accept_reparto.html',reparto=reparto)
+    users = mongo.db.Gobierno
+    hospital = mongo.db.Hospital
+    reparto = mongo.db.Reparto
+    existing_hospital = hospital.find_one({'Username':session['username']})
+    existing_user = users.find_one({'Username':session['username']})
+
+
+
+    reparto = reparto_collection.find({'id_Hospital':existing_hospital['_id']})
+    return 'You are logged in as hospital ' + session['username']+render_template('accept_reparto.html',reparto=reparto,hospital=existing_hospital)
 
 
 #When you press login
@@ -141,7 +148,7 @@ def register_hospital():
                 hosptial = mongo.db.Hospital
                 #Insert in name username, and password the hash password
                 #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
-                Hospital.insert({'Nombre': request.form['hospital'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Edad_minima':65,'Vacunas_disponibles':0, 'Vacunas_utilizadas':0,'id_municipal':gobierno_municipal['_id']})
+                Hospital.insert({'Nombre': request.form['hospital'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Edad_minima':65,'Vacunas_disponibles':0, 'Vacunas_utilizadas':0, 'Vacunas_apartadas': 0,'id_municipal':gobierno_municipal['_id']})
                 session['username_hospital']=request.form['username']
                 return redirect(url_for('index_hospital'))
             return 'No existe ese municipio'
@@ -152,6 +159,37 @@ def register_hospital():
     return render_template('register_hospital.html')
 
 ###FinHospitales###
+
+
+###Users###
+
+@app.route('/register_user', methods=['POST', 'GET'])
+def register_user():
+    if request.method == 'POST':
+        users = mongo.db.User  
+        hospital=mongo.db.Hospital
+        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
+        existing_user = users.find_one({'RFC':request.form['RFC']})
+        if nombhosp != None and existing_user == None:
+            testedad = request.form['Edad']
+            testedad = int(testedad)
+            if testedad >= nombhosp["Edad_minima"] :
+                if nombhosp["Vacunas_disponibles"] > 0:
+                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    add = 1
+                    temp = {"$inc": {'Vacunas_apartadas':add}}
+                    filt = {'Nombre': request.form['Hospital']}
+                    hospital.update_one(filt, temp)
+
+                    nombhosp['Vacunas_disponibles']= nombhosp['Vacunas_disponibles']-1
+                    hospital.save(nombhosp)
+                    return 'updated hospital y created user'
+
+                return 'Ya no quedan vacunas en este hospital'
+            return 'Por el momento no estamos vacunando a las personas de su edad'
+        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
+    return render_template('register_user.html')
+
 #End of frontend login
 ##############################################################################
 
@@ -181,124 +219,21 @@ def register_reparto():
 @app.route('/accept_reparto/<oid>',methods=['POST','GET'])
 def accept_reparto(oid):
     reparto_collection = mongo.db.Reparto
+    hospital_collection = mongo.db.Hospital
     reparto=reparto_collection.find_one({'_id':ObjectId(oid)})
+    current_hospital = hospital_collection.find_one({'Username':session['username']})
     reparto['estado']="aceptado"
+    current_hospital['Vacunas_disponibles']= current_hospital['Vacunas_disponibles']+int(reparto['Vacunas'])
     reparto_collection.save(reparto)
-    return 'Oi, tryin to work'+render_template('accept_reparto.html',reparto=reparto)
+    hospital_collection.save(current_hospital)
+    return redirect(url_for('home_hospital'))
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
     app.run(debug=True)
 
 
-#reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': session['id'],'estado': 'enviado'})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@app.route("/gobierno",methods = ["GET"])
-def get_gobiernos():
-    all_gobiernos = list(collection.find({}))
-    return json.dumps(all_gobiernos, default=json_util.default)
-
-from flask import Flask, jsonify
-from pymongo import MongoClient
-import json
-from bson import json_util
-
-
-
-@app.route('/gobiernos',methods = ['GET'])
-def get_gobiernos():
-    filt = {'_id': 1}
-    users = collection.find(filt)
-    output = [{'_id': user['_id'],
-    'Municipio': user['Municipio'],
-    'Username' : user['Username'],
-    'Password': user['Password'],
-    'Vacunas-Disp': user['Vacunas-Disp'],
-    'Vacunas-utl': user['Vacunas-utl']
-    }
-    for user in users
-    ]
-
-
-    return jsonify(output)
-@app.route("/addvacunas",methods=["POST","GET"])
-def update_vacunas():
-    filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
-    add = 2009 #pedir la cantidad de vacunas que se van a agregar 
-    updated_data = {"$inc": {'Vacunas_Disp':add}}
-    response = collection.update_one(filt, updated_data)
-    output = "Updated"
-    return output
-
-@app.route("/remvacunas",methods=["POST","GET"])
-def rem_vacunas():
-    munc = 'Cuajimalpa' #pedir el municicpio
-    filt = {'Municipio': munc}
-    add = 2009 #pedir la cantidad de vacunas que se van a restar
-    updated_data = {"$min": {'Vacunas_Disp':add}}
-    response = collection.update_one(filt, updated_data)
-    output = "Updated vacunas restadas"
-    return output
-
 #esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
-@app.route("/repartir", methods=["POST","GET"])
-def reparto():
-    hosp = 2
-    vac = 123
-    repartos.insert_one({'id_Hospital': hosp, 'Vacunas':vac, 'id_Municipal':3, 'estado':'Enviado'}) 
-    output = "Repartos funciona"
-    return output
-
-
-@app.route('/register_user', methods=['POST', 'GET'])
-def register_user():
-    if request.method == 'POST':
-        users = mongo.db.User  
-        hospital=mongo.db.Hospital
-        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
-        existing_user = users.find_one({'RFC':request.form['RFC']})
-        if nombhosp != None and existing_user == None:
-            testedad = request.form['Edad']
-            testedad = int(testedad)
-            if testedad >= nombhosp["Edad_minima"] :
-                if nombhosp["Vacunas_disponibles"] > 0:
-                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
-                    add = 1
-                    temp = {"$inc": {'Vacunas_apartadas':add}}
-                    filt = {'Nombre': request.form['Hospital']}
-                    hospital.update_one(filt, temp)
-                    #flash("Se apartó la vacuna y se actualizo el hospital")
-                    return 'updated hospital y created user'
-
-                return 'Ya no quedan vacunas en este hospital'
-            return 'Por el momento no estamos vacunando a las personas de su edad'
-        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
-    return render_template('register_user.html')
 
 #TODO finish general success for any query
 @app.route('/success', methods = ["GET"])
