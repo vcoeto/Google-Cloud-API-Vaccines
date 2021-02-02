@@ -3,6 +3,7 @@ import pymongo
 from pymongo import MongoClient
 import json
 from bson import json_util
+from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 #Hash de password
 import bcrypt
@@ -30,8 +31,14 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return 'You are logged in as ' + session['username']+render_template('register_reparto.html')
+        #Lleva al usaro al url /home
+        return redirect(url_for('home'))
     return render_template('index.html')
+
+#/home url, muestra a register_reparto.html
+@app.route('/home')
+def home():
+    return 'You are logged in as '+session['username']+render_template('register_reparto.html')
 
 #When you press login gobierno
 @app.route('/login',methods=['POST'])
@@ -82,8 +89,19 @@ def register():
 @app.route('/hospital')
 def index_hospital():
     if 'username' in session:
-        return 'You are logged in as hospital ' + session['username']
+        return redirect(url_for('home_hospital'))
+        #return 'You are logged in as hospital ' + session['username']
     return render_template('index_hospital.html')
+
+#/home url, muestra a register_reparto.html
+@app.route('/home_hospital')
+def home_hospital():
+    print("IN ACCEPT REPARTO")
+    reparto_collection=mongo.db.Reparto
+    reparto = reparto_collection.find()
+    print(reparto)
+    return 'You are logged in as hospital ' + session['username']+render_template('accept_reparto.html',reparto=reparto)
+
 
 #When you press login
 @app.route('/login_hospital',methods=['POST'])
@@ -158,13 +176,15 @@ def register_reparto():
             return redirect(url_for('index'))
         return 'NO EXISTE HOSPITAL'
     return render_template('register_reparto.html')
-
-
-
-
 ###Fin creacion de repartos###
 
-
+@app.route('/accept_reparto/<oid>',methods=['POST','GET'])
+def accept_reparto(oid):
+    reparto_collection = mongo.db.Reparto
+    reparto=reparto_collection.find_one({'_id':ObjectId(oid)})
+    reparto['estado']="aceptado"
+    reparto_collection.save(reparto)
+    return 'Oi, tryin to work'+render_template('accept_reparto.html',reparto=reparto)
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
@@ -237,9 +257,54 @@ def update_vacunas():
 
 @app.route("/remvacunas",methods=["POST","GET"])
 def rem_vacunas():
-    filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
+    munc = 'Cuajimalpa' #pedir el municicpio
+    filt = {'Municipio': munc}
     add = 2009 #pedir la cantidad de vacunas que se van a restar
     updated_data = {"$min": {'Vacunas_Disp':add}}
     response = collection.update_one(filt, updated_data)
     output = "Updated vacunas restadas"
     return output
+
+#esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
+@app.route("/repartir", methods=["POST","GET"])
+def reparto():
+    hosp = 2
+    vac = 123
+    repartos.insert_one({'id_Hospital': hosp, 'Vacunas':vac, 'id_Municipal':3, 'estado':'Enviado'}) 
+    output = "Repartos funciona"
+    return output
+
+
+@app.route('/register_user', methods=['POST', 'GET'])
+def register_user():
+    if request.method == 'POST':
+        users = mongo.db.User  
+        hospital=mongo.db.Hospital
+        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
+        existing_user = users.find_one({'RFC':request.form['RFC']})
+        if nombhosp != None and existing_user == None:
+            testedad = request.form['Edad']
+            testedad = int(testedad)
+            if testedad >= nombhosp["Edad_minima"] :
+                if nombhosp["Vacunas_disponibles"] > 0:
+                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    add = 1
+                    temp = {"$inc": {'Vacunas_apartadas':add}}
+                    filt = {'Nombre': request.form['Hospital']}
+                    hospital.update_one(filt, temp)
+                    #flash("Se apartó la vacuna y se actualizo el hospital")
+                    return 'updated hospital y created user'
+
+                return 'Ya no quedan vacunas en este hospital'
+            return 'Por el momento no estamos vacunando a las personas de su edad'
+        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
+    return render_template('register_user.html')
+
+#TODO finish general success for any query
+@app.route('/success', methods = ["GET"])
+def success():
+    if request.method == 'GET':
+        value = 'index'
+        return redirect(url_for(value))
+    
+    return render_template('success.html')
