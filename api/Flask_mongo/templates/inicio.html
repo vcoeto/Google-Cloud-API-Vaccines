@@ -30,7 +30,13 @@
 </style>
 {% endblock %}
 {% block body %}
-    <button on click = "/" class="button button1 ">Gobierno</button>
-    <button on click = "/hospital"  class="button button1">Hospital</button>
-    <button on click = "/user.html"  class="button button1">Usuario</button>
+    <form action="/">
+      <button name ="Gobierno" type = "submit" class="button button1 ">Gobierno</button>
+    </form>
+    <form action="/hospital">
+      <button name = "Hospital"  type = "submit" class="button button1">Hospital</button>
+    </form>
+    <form action = "/register_user">
+      <button name = "User"  type = "submit"  class="button button1">Usuario</button>
+    </form>
 {% endblock %}

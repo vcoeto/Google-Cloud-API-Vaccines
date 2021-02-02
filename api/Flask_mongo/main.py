@@ -262,3 +262,7 @@ def success():
         return redirect(url_for(value))
     
     return render_template('success.html')
+
+@app.route('/inicio')
+def inicio():
+    return render_template('inicio.html')
