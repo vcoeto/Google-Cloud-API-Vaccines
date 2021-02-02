@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"]="mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority"
 
 mongo = PyMongo(app)
-##############################################################33
+##############################################################
 #Front-end login
 
 #All the routing in our app will be mentioned here 
@@ -225,15 +225,84 @@ def accept_reparto(oid):
     reparto['estado']="aceptado"
     current_hospital['Vacunas_disponibles']= current_hospital['Vacunas_disponibles']+int(reparto['Vacunas'])
     reparto_collection.save(reparto)
+<<<<<<< HEAD
     hospital_collection.save(current_hospital)
     return redirect(url_for('home_hospital'))
+=======
+    return 'Oi, trying to work'+render_template('accept_reparto.html',reparto=reparto)
+>>>>>>> f380378b4eba51090bc127e6453fea3bf38f53d9
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
     app.run(debug=True)
 
 
+<<<<<<< HEAD
 #esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
+=======
+#reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': session['id'],'estado': 'enviado'})
+
+from flask import Flask, jsonify
+from pymongo import MongoClient
+import json
+from bson import json_util
+
+#registro de usuario para apartar la vacuna 
+@app.route('/register_user', methods=['POST', 'GET'])
+def register_user():
+    if request.method == 'POST':
+        users = mongo.db.User  
+        hospital=mongo.db.Hospital
+        nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
+        existing_user = users.find_one({'RFC':request.form['RFC']})
+        if nombhosp != None and existing_user == None:
+            testedad = request.form['Edad']
+            testedad = int(testedad)
+            if testedad >= nombhosp["Edad_minima"] :
+                if nombhosp["Vacunas_disponibles"] > 0:
+                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    add = 1
+                    temp = {"$inc": {'Vacunas_apartadas':add}}
+                    filt = {'Nombre': request.form['Hospital']}
+                    hospital.update_one(filt, temp)
+                    #flash("Se apartó la vacuna y se actualizo el hospital")
+                    return 'updated hospital y created user'
+
+                return 'Ya no quedan vacunas en este hospital'
+            return 'Por el momento no estamos vacunando a las personas de su edad'
+        return f'<h1>El usuario ya existe o el hospital no existe </h1>'
+    return render_template('register_user.html')
+
+@app.route("/addvacunas",methods=["POST","GET"])
+def update_vacunas():
+    filt = {'Municipio': 'Cuajimalpa'} #pedir el municicpio
+    add = 2009 #pedir la cantidad de vacunas que se van a agregar 
+    updated_data = {"$inc": {'Vacunas_Disp':add}}
+    response = collection.update_one(filt, updated_data)
+    output = "Updated"
+    return output
+
+@app.route("/remvacunas",methods=["POST","GET"])
+def rem_vacunas():
+    munc = 'Cuajimalpa' #pedir el municicpio
+    filt = {'Municipio': munc}
+    add = 2009 #pedir la cantidad de vacunas que se van a restar
+    updated_data = {"$min": {'Vacunas_Disp':add}}
+    response = collection.update_one(filt, updated_data)
+    output = "Updated vacunas restadas"
+    return output
+
+#esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
+@app.route("/repartir", methods=["POST","GET"])
+def reparto():
+    hosp = 2
+    vac = 123
+    repartos.insert_one({'id_Hospital': hosp, 'Vacunas':vac, 'id_Municipal':3, 'estado':'Enviado'}) 
+    output = "Repartos funciona"
+    return output
+
+
+>>>>>>> f380378b4eba51090bc127e6453fea3bf38f53d9
 
 #TODO finish general success for any query
 @app.route('/success', methods = ["GET"])
@@ -243,3 +312,7 @@ def success():
         return redirect(url_for(value))
     
     return render_template('success.html')
+
+@app.route('/inicio')
+def inicio():
+    return render_template('inicio.html')
