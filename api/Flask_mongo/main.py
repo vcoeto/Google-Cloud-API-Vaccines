@@ -169,13 +169,13 @@ def register_user():
         users = mongo.db.User  
         hospital=mongo.db.Hospital
         nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
-        existing_user = users.find_one({'RFC':request.form['RFC']})
+        existing_user = users.find_one({'CURP':request.form['RFC']})
         if nombhosp != None and existing_user == None:
             testedad = request.form['Edad']
             testedad = int(testedad)
             if testedad >= nombhosp["Edad_minima"] :
                 if nombhosp["Vacunas_disponibles"] > 0:
-                    users.insert({'RFC':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    users.insert({'CURP':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
                     add = 1
                     temp = {"$inc": {'Vacunas_apartadas':add}}
                     filt = {'Nombre': request.form['Hospital']}
