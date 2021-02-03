@@ -1,3 +1,4 @@
+import redis
 from flask import Flask, jsonify, request, redirect, render_template, url_for, session, redirect
 import pymongo 
 from pymongo import MongoClient
@@ -9,11 +10,18 @@ from flask_pymongo import PyMongo
 import bcrypt
 import os
 
-#template_dir = os.path.abspath('../templates')
+
+host_info = "redis-16819.c124.us-central1-1.gce.cloud.redislabs.com"
+r = redis.Redis(host=host_info, port=16819, password='hr4OqiIokxMehjbI12BboBkQmJ36F3TW')
+
 app = Flask(__name__)
 app.config["MONGO_URI"]="mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority"
 
 mongo = PyMongo(app)
+ ## pa victor
+#app.secret_key='secretivekey'
+
+############## main.py for mongo 
 ##############################################################
 #Front-end login
 
@@ -45,6 +53,7 @@ def login():
         #Compare the encripted password
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'),login_user['Password'].encode('utf-8'))== login_user['Password'].encode('utf-8'):
             session['username']=request.form['username']
+            r.setex("prueba", 120, request.form['username'])
             return redirect(url_for('index'))
         return 'Er'
     return 'Invalid username/password combination'
@@ -70,6 +79,7 @@ def register():
             #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
             users.insert({'Municipio': request.form['municipio'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Vacunas_Disp': 0, 'Vacunas_utl': 0})
             session['username']=request.form['username']
+            r.setex("prueba", 120, request.form['username'])
             return redirect(url_for('index'))
         #Existing user was not none
         return 'That username already exists!'
@@ -111,6 +121,7 @@ def login_hospital():
         #Compare the encripted password
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'),login_user['Password'].encode('utf-8'))== login_user['Password'].encode('utf-8'):
             session['username']=request.form['username']
+            r.setex("prueba", 120, request.form['username'])
             return redirect(url_for('index_hospital'))
         return 'Invalid username/password combination for hospital'
     return 'Invalid username/password combination for hospital'
@@ -140,6 +151,7 @@ def register_hospital():
                 #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
                 users.insert({'Nombre': request.form['hospital'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Edad_minima':65,'Vacunas_disponibles':0, 'Vacunas_utilizadas':0, 'Vacunas_apartadas': 0,'id_municipal':gobierno_municipal['_id']})
                 session['username_hospital']=request.form['username']
+                r.setex("prueba", 120, request.form['username'])
                 return redirect(url_for('index_hospital'))
             return 'No existe ese municipio'
             #return 'No existe ese gobierno municipal!'
@@ -193,6 +205,9 @@ def register_reparto():
         #DELETE reparto.insert({'id_Hospital': 0, 'Vacunas':request.form['vacunas'], 'id_Municipal': 0,'estado': 'enviado'})
         #Check if the user does not exist and register it
         if existing_hospital:
+            lol = r.get("prueba")
+            if lol == None:
+                return "sesion timeout" + render_template("index.html")
             reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': existing_user['_id'],'estado': 'enviado'})
 
             #reparto.insert({'id_Hospital': existing_hospital['_id'], 'Vacunas':request.form['vacunas'], 'id_Municipal': session['id'],'estado': 'enviado'})
@@ -204,6 +219,9 @@ def register_reparto():
 
 @app.route('/accept_reparto/<oid>',methods=['POST','GET'])
 def accept_reparto(oid):
+    lol = r.get("prueba")
+    if lol == None:
+        return "sesion timeout" + render_template("index_hospital.html")
     reparto_collection = mongo.db.Reparto
     hospital_collection = mongo.db.Hospital
     reparto=reparto_collection.find_one({'_id':ObjectId(oid)})
@@ -218,6 +236,9 @@ def accept_reparto(oid):
 #TO DO
 @app.route('/main_vacunados')
 def main_vacunados():
+    lol = r.get("prueba")
+    if lol == None:
+        return "sesion timeout" + render_template("index_hospital.html")
     users = mongo.db.User
     hospital = mongo.db.Hospital
     current_hospital = hospital.find_one({'Username':session['username']})
@@ -228,6 +249,9 @@ def main_vacunados():
 #TO DO
 @app.route('/accept_vacunados/<oid>',methods=['POST','GET'])
 def accept_vacunados(oid):
+    lol = r.get("prueba")
+    if lol == None:
+        return "sesion timeout" + render_template("index_hospital.html")
     user_collection = mongo.db.User
     hospital_collection = mongo.db.Hospital
     user=user_collection.find_one({'_id':ObjectId(oid)})
@@ -242,6 +266,9 @@ def accept_vacunados(oid):
 
 @app.route('/delete_vacunados/<oid>',methods=['POST','GET'])
 def delete_vacunados(oid):
+    lol = r.get("prueba")
+    if lol == None:
+        return "sesion timeout" + render_template("index_hospital.html")
     user_collection = mongo.db.User
     hospital_collection = mongo.db.Hospital
     user=user_collection.find_one({'_id':ObjectId(oid)})
