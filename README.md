@@ -51,8 +51,8 @@ Como parte de la entrega final del proyecto, se debe incluir la siguiente inform
 
 * El proyecto vacunanado a México consiste en una aplicación en dónde permite llevar acabo un inventario de las vacunas que se usan por municpio y por hospital en la ciudad de México cada municipio cuenta con un número de vacunas que se 
   distribuyen en los hospitales del mismo através de un reparto que se hacen los hospitales, estos cuenta de la misma manera con un inventario de vacunas que se han utilizado, las vacunas disponibles y las vacunas que han sido apartadas 
-  para el grupo de edad que se está vacunando, al igual cómo usuario se presenta la opción de registrarse para apartar la vacuna en el hospital que escoja de su municipio, el usuario solo podrá apartar una vacuna si el hospital esta vacunando 
-  a lsa personas de su edad si no tendrá que esperar a que eso cambie. 
+  para el grupo de edad que se está vacunando, al igual cómo usuario se presenta la opción de registrarse para apartar la vacuna en el hospital que escoja de su municipio, usando su CURP el usuario solo podrá apartar una vacuna 
+  si el hospital esta vacunando a las personas de su edad si no tendrá que esperar a que eso cambie. 
 
 ### 2.1 Casos de negocio 
     Para este proyecto se tomaron en cuenta los siguientes casos de negocio:
@@ -72,9 +72,14 @@ A continuación aparecen descritos los diferentes elementos que forman parte de 
 * Para la solución de este proyecto se utilizo mongodb para almacenar los gobiernos, hospitales, el reparto que se hace de las vacunas y un registro de los usuarios que hacen un aparatdo de la vacuna, el modelo se presenta a continuación de 
 cómo está estructurada la base de datos en la parte de Mongodb :
 
+![](dbs/SchemaMongoDb.jpg) 
+
 * Se escogió esta base de datos debido  a que es una base de datos NoSQL que es de las más usadas y permite la integración con otras bases de datos, de igual manera permite manejar grandes cantidades de datos y este tipo de base de datos no
   necesita un modelo entidad relación lo cual hace más sencillo a la hora de inserta información en las diferentes colecciones y permite hacer relaciones de mejor forma con las diferentes colecciones y de la misma manera permite hacer consultas optimizadas
   al igual que tiene una gran capacidad de escalabilidad. 
+  
+* La segunda base de datos que se escogió fue Redis la principal función es mantener la sesión del usuario iniciada durante un tiempo específico, se escogió redis debido a dos facotres lo sencillo que es ingresar una llave valor y crearle un tiempo
+  para que expire la sesión y la cierre automáticamente despues de que esa llave expire.  
 
 ### 3.2 Arquitectura de la solución
 
@@ -90,7 +95,8 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 
 ### 3.4 API o backend
 
-*[Incluya aquí una explicación de la solución utilizada para implementar la API del proyecto. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
+Para este proyecto se decidió usar Python y usar el framework de Flask ya que permite hacer un aplicación wenb e integrar dos bases de datos en sencillo en la parte del backend lo cual nos permite trabajar de forma más eficiente a la hora 
+de programar la aplicación.
 
 #### 3.4.1 Lenguaje de programación
 El lenguaje que se utilizo para la arquitectura se uso Python. 
