@@ -166,18 +166,14 @@ def register_user():
         users = mongo.db.User  
         hospital=mongo.db.Hospital
         nombhosp = hospital.find_one({'Nombre': request.form['Hospital']})
-        existing_user = users.find_one({'CURP':request.form['RFC']})
+        existing_user = users.find_one({'CURP':request.form['CURP']})
         if nombhosp != None and existing_user == None:
             testedad = request.form['Edad']
             testedad = int(testedad)
             if testedad >= nombhosp["Edad_minima"] :
                 if nombhosp["Vacunas_disponibles"] > 0:
-                    users.insert({'CURP':request.form['RFC'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
-                    add = 1
-                    temp = {"$inc": {'Vacunas_apartadas':add}}
-                    filt = {'Nombre': request.form['Hospital']}
-                    hospital.update_one(filt, temp)
-
+                    users.insert({'CURP':request.form['CURP'], 'Edad':request.form['Edad'], 'Hospital': request.form['Hospital'], 'Vacunado':'S'})
+                    nombhosp['Vacunas_apartadas']= nombhosp['Vacunas_apartadas']+1
                     nombhosp['Vacunas_disponibles']= nombhosp['Vacunas_disponibles']-1
                     hospital.save(nombhosp)
                     return 'updated hospital y created user'
@@ -232,8 +228,8 @@ def main_vacunados():
     users = mongo.db.User
     hospital = mongo.db.Hospital
     current_hospital = hospital.find_one({'Username':session['username']})
-    user = users.find({'Hospital':existing_hospital['Nombre']})
-    return 'You are logged in as hospital ' + session['username']+render_template('accept_reparto.html',user=user,hospital=existing_hospital)
+    user = users.find({'Hospital':current_hospital['Nombre']})
+    return 'You are logged in as hospital ' + session['username']+render_template('main_vacunados.html',user=user,hospital=current_hospital)
 
 
 #TO DO
@@ -241,12 +237,25 @@ def main_vacunados():
 def accept_vacunados(oid):
     user_collection = mongo.db.User
     hospital_collection = mongo.db.Hospital
-    user=user_collection.find_one({'id':ObjectId(oid)})
+    user=user_collection.find_one({'_id':ObjectId(oid)})
     current_hospital = hospital_collection.find_one({'Username':session['username']})
-    user['Vacunado']="V"
+    user['Vacunado']='V'
     current_hospital['Vacunas_apartadas']= current_hospital['Vacunas_apartadas']-1
     current_hospital['Vacunas_utilizadas']= current_hospital['Vacunas_utilizadas']+1
-    reparto_collection.save(reparto)
+    user_collection.save(user)
+    hospital_collection.save(current_hospital)
+    return redirect(url_for('main_vacunados'))
+
+
+@app.route('/delete_vacunados/<oid>',methods=['POST','GET'])
+def delete_vacunados(oid):
+    user_collection = mongo.db.User
+    hospital_collection = mongo.db.Hospital
+    user=user_collection.find_one({'_id':ObjectId(oid)})
+    current_hospital = hospital_collection.find_one({'Username':session['username']})
+    current_hospital['Vacunas_apartadas']= current_hospital['Vacunas_apartadas']-1
+    current_hospital['Vacunas_disponibles']= current_hospital['Vacunas_disponibles']+1
+    user_collection.delete_one(user)
     hospital_collection.save(current_hospital)
     return redirect(url_for('main_vacunados'))
 #SecretKey

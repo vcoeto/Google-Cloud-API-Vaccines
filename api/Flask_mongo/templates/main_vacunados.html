@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block head %}
-<h1>Home Hospital: {{nombre}}</h1>
+<h1>Acepter/negar vacunas: {{nombre}}</h1>
 {% endblock %}
 {% block body %} 
 <div class="container">
@@ -10,26 +10,38 @@
             <h5>Vacunas disponibles: {{hospital.Vacunas_disponibles}}</h5>
             <h5>Vacunas utilizadas: {{hospital.Vacunas_utilizadas}}</h5>
             <h5>Vacunas apartadas: {{hospital.Vacunas_apartadas}}</h5>
-            
-                <a href="{{url_for('main_vacunados') }}">
+            <!--
+            <a href="{{url_for('main_vacunados') }}">
                 <button type="submit" class="btn btn-primary btn-block">Registrar vacunados</button>
             </a>
+            -->
+            
             
             
                 <ul class="list-group t20">
                     <!--
                         A for to iterate all reparto, and and if to only show those that haven't been accepted, else to shw the accepted
                     -->
-                    {% for reparto in reparto %}
-                    {% if reparto.estado =='enviado'%}
-                    <a href="{{url_for('accept_reparto',oid=reparto._id) }}">
+                    {% for user in user %}
+                    {% if user.Vacunado =='S'%}
+                    
                         
-                    <li class="lit-group-item ">Vacunas enviadas: {{reparto.Vacunas}}</li>
+                    <li class="lit-group-item ">Vacunas enviadas: {{user.CURP}}
+                        <!--Confima que se vacuno al paciente-->
+                        <a href="{{url_for('accept_vacunados',oid=user._id) }}">
+                            <button type="submit" class="btn btn-primary btn-block">Confirmar Vacuna</button>
+                        </a>
+                        <!--Niegas que se vacuno el paciente-->
+                        <a href="{{url_for('delete_vacunados',oid=user._id) }}">
+                            <button type="submit" class="btn btn-primary btn-block">Cancela Vacuna</button>
+                        </a>
+                            
+                    </li>
                     
                     
-                    </a>
+                    
                     {% else%}
-                    <li class="lit-group-item ">Vacunas aceptadas: {{reparto.Vacunas}}</li>
+                    <li class="lit-group-item ">Vacunas aceptadas: {{user.RFC}}</li>
                     {% endif %}
                     {% endfor %}
                 </ul>
