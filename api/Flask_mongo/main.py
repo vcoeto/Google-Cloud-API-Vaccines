@@ -103,9 +103,6 @@ def home_hospital():
     reparto = mongo.db.Reparto
     existing_hospital = hospital.find_one({'Username':session['username']})
     existing_user = users.find_one({'Username':session['username']})
-
-
-
     reparto = reparto_collection.find({'id_Hospital':existing_hospital['_id']})
     return 'You are logged in as hospital ' + session['username']+render_template('accept_reparto.html',reparto=reparto,hospital=existing_hospital)
 
@@ -227,6 +224,31 @@ def accept_reparto(oid):
     reparto_collection.save(reparto)
     hospital_collection.save(current_hospital)
     return redirect(url_for('home_hospital'))
+
+
+#TO DO
+@app.route('/main_vacunados')
+def main_vacunados():
+    users = mongo.db.User
+    hospital = mongo.db.Hospital
+    current_hospital = hospital.find_one({'Username':session['username']})
+    user = users.find({'Hospital':existing_hospital['Nombre']})
+    return 'You are logged in as hospital ' + session['username']+render_template('accept_reparto.html',user=user,hospital=existing_hospital)
+
+
+#TO DO
+@app.route('/accept_vacunados/<oid>',methods=['POST','GET'])
+def accept_vacunados(oid):
+    user_collection = mongo.db.User
+    hospital_collection = mongo.db.Hospital
+    user=user_collection.find_one({'id':ObjectId(oid)})
+    current_hospital = hospital_collection.find_one({'Username':session['username']})
+    user['Vacunado']="V"
+    current_hospital['Vacunas_apartadas']= current_hospital['Vacunas_apartadas']-1
+    current_hospital['Vacunas_utilizadas']= current_hospital['Vacunas_utilizadas']+1
+    reparto_collection.save(reparto)
+    hospital_collection.save(current_hospital)
+    return redirect(url_for('main_vacunados'))
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
