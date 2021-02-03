@@ -249,6 +249,7 @@ def accept_vacunados(oid):
     reparto_collection.save(reparto)
     hospital_collection.save(current_hospital)
     return redirect(url_for('main_vacunados'))
+#SecretKey
 
 if __name__=='__main__':
     app.secret_key='secretivekey'
