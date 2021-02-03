@@ -9,13 +9,6 @@ from flask_pymongo import PyMongo
 import bcrypt
 import os
 
-cluster = MongoClient("mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority")
-db = cluster["ProyectoFinal"]
-collection = db["Gobierno"]
-Hospital = db["Hospital"]
-repartos = db["Reparto"]
-
-
 #template_dir = os.path.abspath('../templates')
 app = Flask(__name__)
 app.config["MONGO_URI"]="mongodb+srv://Jorge:cGpoYxUlFA17JUOb@cluster0.yoqut.mongodb.net/ProyectoFinal?retryWrites=true&w=majority"
@@ -145,7 +138,7 @@ def register_hospital():
                 hosptial = mongo.db.Hospital
                 #Insert in name username, and password the hash password
                 #Since the password is hashed, it becomes a byte object, we need to transform it to string, therefore we decode it
-                Hospital.insert({'Nombre': request.form['hospital'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Edad_minima':65,'Vacunas_disponibles':0, 'Vacunas_utilizadas':0, 'Vacunas_apartadas': 0,'id_municipal':gobierno_municipal['_id']})
+                users.insert({'Nombre': request.form['hospital'], 'Username':request.form['username'], 'Password': hashpass.decode('utf-8'),'Edad_minima':65,'Vacunas_disponibles':0, 'Vacunas_utilizadas':0, 'Vacunas_apartadas': 0,'id_municipal':gobierno_municipal['_id']})
                 session['username_hospital']=request.form['username']
                 return redirect(url_for('index_hospital'))
             return 'No existe ese municipio'
@@ -263,18 +256,6 @@ def delete_vacunados(oid):
 if __name__=='__main__':
     app.secret_key='secretivekey'
     app.run(debug=True)
-
-
-#esto debe de pedir a que hospital va y cuantas vacunas recibe y que municicpio las manda
-
-#TODO finish general success for any query
-@app.route('/success', methods = ["GET"])
-def success():
-    if request.method == 'GET':
-        value = 'index'
-        return redirect(url_for(value))
-    
-    return render_template('success.html')
 
 @app.route('/inicio')
 def inicio():
