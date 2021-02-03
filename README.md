@@ -95,7 +95,8 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 
 ### 3.4 API o backend
 
-*[Incluya aquí una explicación de la solución utilizada para implementar la API del proyecto. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
+Para este proyecto se decidió usar Python y usar el framework de Flask ya que permite hacer un aplicación wenb e integrar dos bases de datos en sencillo en la parte del backend lo cual nos permite trabajar de forma más eficiente a la hora 
+de programar la aplicación.
 
 #### 3.4.1 Lenguaje de programación
 El lenguaje que se utilizo para la arquitectura se uso Python. 
