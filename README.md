@@ -128,8 +128,41 @@ Hay tres tipos de endpoint
 * Usuario: frontend, se registra en el url "/registrar_usuario"
 
 ## 3.5 Pasos a seguir para utilizar el proyecto
+Hay 2 formas de usar el proyecto:
 
-*[Incluya aquí una guía paso a paso para poder utilizar el proyecto, desde la clonación del repositorio hasta el despliegue de la solución en una plataforma en la nube.]*
+- De forma local
+  
+Para poder usar el proyecto de forma local se necesita tener instalado python3, tener pip para jalar las librerias y git para clonar el repositorio. 
+Primero tienes que crear clonar el repositorio. todos estos comandos los puedes encontrar en la página oficial de [Flask](https://flask.palletsprojects.com/en/1.1.x/installation/), si quieres activarlo en windows encontraras los comandos para hacerlo. 
+~~~
+git clone https://github.com/tec-csf/tc3041-pf-invierno-2021-eq2
+~~~
+Ya que tenemos copiado el repositorio tenemos que entrar a la carpeta en donde se encuentra toda nuestra API, tenemos que hacer:
+~~~
+cd api/Flask_mongo
+~~~
+
+Tras entrar la carpeta tienes que crear un ambiente virtual de flask para poder hacer la aplicación localmente, el primer comando creará las instanicas y el segundo activará el ambiente. 
+~~~
+python3 -m venv venv
+. venv/bin/activate
+~~~
+ahora dentro del ambiente se necesita instalar a través de pip las librerias de flask y el resto que necesita instalar. 
+~~~
+pip install -r requirements.txt
+~~~
+Ahora solo falta decir que el programa main es con el que va a exportar la aplicación, se hace con el comando:
+~~~
+export FLASK_APP=main.py
+~~~
+Ya tienes todo instalado y listo para correr, ahora solo tienes que hacer que corra flask y tendras la aplicación corriendo en la IP que te da el mismo comando (http://127.0.0.1:5000/)
+~~~
+flask run
+~~~
+
+- de forma remota
+
+Ingrese al siguiente [link](https://proyectofinal-303717.rj.r.appspot.com/inicio) para ver el proyecto desde google app engine.
 
 ## 4. Referencias
 
