@@ -29,10 +29,13 @@ A continuación se mencionan los requerimientos técnicos mínimos del proyecto,
 ### 1.2 Estructura del repositorio
 El proyecto debe seguir la siguiente estructura de carpetas:
 ```
-- / 			        # Raíz de todo el proyecto
-    - README.md			# Archivo con los datos del proyecto (este archivo)
-    - frontend			# Carpeta con la solución del frontend (Web app)
-    - api			# Carpeta con la solución de la API o el backend
+- / 			    # Raíz de todo el proyecto
+    - README.md		# Archivo con los datos del proyecto (este archivo)
+    - Google Cloud	# Carpeta con la solución para google app engine (Web app)
+    - api			# Carpeta con la solución de la API
+      -static       #Frontend html
+      -templates    #Frontend html
+      -main         #Backend de flask, mongodb y redis
     - dbs			# Carpeta con los modelos, catálogos y scripts necesarios para generar las bases de datos
     - docs			# Carpeta con la documentación del proyecto
 ```
@@ -78,7 +81,7 @@ cómo está estructurada la base de datos en la parte de Mongodb :
   necesita un modelo entidad relación lo cual hace más sencillo a la hora de inserta información en las diferentes colecciones y permite hacer relaciones de mejor forma con las diferentes colecciones y de la misma manera permite hacer consultas optimizadas
   al igual que tiene una gran capacidad de escalabilidad. 
   
-* La segunda base de datos que se escogió fue Redis la principal función es mantener la sesión del usuario iniciada durante un tiempo específico, se escogió redis debido a dos facotres lo sencillo que es ingresar una llave valor y crearle un tiempo
+* La segunda base de datos que se escogió fue Redis la principal función es mantener la sesión del usuario iniciada durante un tiempo específico, se escogió redis debido a dos factores: lo sencillo que es ingresar una llave valor y crearle un tiempo
   para que expire la sesión y la cierre automáticamente despues de que esa llave expire.  
 
 ### 3.2 Arquitectura de la solución
