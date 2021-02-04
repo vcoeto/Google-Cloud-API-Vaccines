@@ -86,7 +86,7 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 
 ### 3.2 Arquitectura de la solución
 
-![](dbs/Diseño de la solucion.png) 
+![](dbs/Diseño_de_la_solucion.png)  
 
 
 ### 3.3 Frontend
