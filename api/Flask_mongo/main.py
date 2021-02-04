@@ -278,12 +278,11 @@ def delete_vacunados(oid):
     user_collection.delete_one(user)
     hospital_collection.save(current_hospital)
     return redirect(url_for('main_vacunados'))
-#SecretKey
-
-if __name__=='__main__':
-    app.secret_key='secretivekey'
-    app.run(debug=True)
 
 @app.route('/inicio')
 def inicio():
     return render_template('inicio.html')
+
+if __name__=='__main__':
+    app.secret_key='secretivekey'
+    app.run(debug=True)
