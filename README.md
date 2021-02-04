@@ -143,5 +143,13 @@ Hay tres tipos de endpoint
 
 * https://dev.to/paurakhsharma/flask-rest-api-part-1-using-mongodb-with-flask-3g7d 
 
+* https://cloud.google.com/memorystore/docs/redis/connect-redis-instance-standard?hl=es-419#python
+
+* https://medium.com/@dmahugh_70618/deploying-a-flask-app-to-google-app-engine-faa883b5ffab
+
+* https://www.freecodecamp.org/news/how-to-build-a-web-app-using-pythons-flask-and-google-app-engine-52b1bb82b221/
+
+* https://hackersandslackers.com/managing-user-session-variables-with-flask-sessions-and-redis/
+
 
 
