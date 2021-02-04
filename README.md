@@ -91,10 +91,23 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 
 #### 3.3.1 Lenguaje de programación
 El usuario interactua con html, el cual se comunicará con python para ejecutar funciones
+
 #### 3.3.2 Framework
 El framework que se usa es Flask
+
 #### 3.3.3 Librerías de funciones o dependencias
-Flask, jsonify, reques, redirect, render_template, url_for, session, pymongo, MongoClient, bson, json_util, bson.objectid, ObjecttId, flask_pymongo
+* Flask.- el framework de donde vienen las dependecias para hacer la parte web de la aplicación
+* jsonify.- Para objetos json 
+* request. -pedir template 
+* redirect.- mover al usuario entre los templates 
+* render_template.- cargar el html 
+* url_for.- llamar las funciones de python en html
+* session.- crear sesiones y guardar sus datos
+* MongoClient.-  Conexión con mongodb
+* pymongo .- Conexión con mognodb y sus operaciones dentro de él 
+* ObjectId. - Se usa para identificar los objetos en html
+* bycript. - Hash de passwords 
+* os.- manipular los archivos.
 
 ### 3.4 API o backend
 
