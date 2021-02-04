@@ -86,7 +86,8 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 
 ### 3.2 Arquitectura de la solución
 
-*[Incluya aquí un diagrama donde se aprecie la arquitectura de la solución propuesta, así como la interacción entre los diferentes componentes de la misma.]*
+![](dbs/diseño.png)  
+
 
 ### 3.3 Frontend
 * Bootstrap
