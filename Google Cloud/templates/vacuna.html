@@ -1,0 +1,22 @@
+
+{% extends "layout.html" %}
+{% block head %}
+<h1>Home User</h1>
+{% endblock %}
+{% block body %} 
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form method=POST action="{{ url_for('vacuna') }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Hospital</label>
+                    <input type="text" class="form-control" name="hospital" placeholder="Hospital">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Apartar</button>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}

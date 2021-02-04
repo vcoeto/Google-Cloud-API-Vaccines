@@ -1,0 +1,7 @@
+Flask
+Werkzeug
+redis
+pymongo
+bcrypt
+flask_pymongo
+dnspython

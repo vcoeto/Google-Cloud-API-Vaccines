@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block head %}
+<h1>Llena los siguientes datos para saber si puedes ser vacunado </h1>
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form method=POST action="{{ url_for('register_user') }}">
+                <div class="form-group">
+                    <label for="exampleInputCURP">CURP</label>
+                    <input type="text" class="form-control" name="CURP" placeholder="CURP">
+                </div>
+                <div class="form-group">
+                    <label for="exampleedad">Edad</label>
+                    <input type="number" class="form-control" name="Edad" placeholder="Edad">
+                </div>
+                
+                    <div class="form-group">
+                    <label for="exampleHospital">Hospital</label>
+                    <input type="text" class="form-control" name="Hospital" placeholder="Hospital">
+                </div>
+                
+                
+                <button type="submit" class="btn btn-primary btn-block">Apartar vacuna</button>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}
