@@ -86,9 +86,9 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 *[Incluya aquí un diagrama donde se aprecie la arquitectura de la solución propuesta, así como la interacción entre los diferentes componentes de la misma.]*
 
 ### 3.3 Frontend
-
-*[Incluya aquí una explicación de la solución utilizada para el frontend del proyecto. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
-
+* Bootstrap
+* HTML
+* CSS
 #### 3.3.1 Lenguaje de programación
 El usuario interactua con html, el cual se comunicará con python para ejecutar funciones
 
@@ -197,5 +197,8 @@ Ingrese al siguiente [link](https://proyectofinal-303717.rj.r.appspot.com/inicio
 
 * https://hackersandslackers.com/managing-user-session-variables-with-flask-sessions-and-redis/
 
+* https://www.youtube.com/watch?v=xjHEcmjlD-Y
+
+* https://www.youtube.com/watch?v=2dEM-s3mRLE
 
 
