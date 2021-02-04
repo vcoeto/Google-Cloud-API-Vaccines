@@ -136,7 +136,7 @@ El framework que se usa es Flask
 * os.- manipular los archivos.
 
 Hay tres tipos de endpoint
-* Gobienro: backend, inicia sesion en el url "/" y puede registrarse o iniciar sesión. Una vez iniciada puede mandar vacunas a los hospitales.
+* Gobierno: backend, inicia sesion en el url "/" y puede registrarse o iniciar sesión. Una vez iniciada puede mandar vacunas a los hospitales.
 * Hospital: backend, inicia sesion en el url "/hospital" y puede registrarse o iniciar sesión. Una vez iniciada puede aceptar vacunas enviadas, y confirmar/borrar los usuarios vacunados/no vacunados.
 * Usuario: frontend, se registra en el url "/registrar_usuario"
 
