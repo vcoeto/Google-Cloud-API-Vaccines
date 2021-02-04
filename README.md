@@ -33,8 +33,8 @@ El proyecto debe seguir la siguiente estructura de carpetas:
     - README.md		# Archivo con los datos del proyecto (este archivo)
     - Google Cloud	# Carpeta con la solución para google app engine (Web app)
     - api			# Carpeta con la solución de la API
-      -static       #Frontend html
-      -templates    #Frontend html
+      -static       #Frontend css
+      -templates    #Frontend html and bootstrap
       -main         #Backend de flask, mongodb y redis
     - dbs			# Carpeta con los modelos, catálogos y scripts necesarios para generar las bases de datos
     - docs			# Carpeta con la documentación del proyecto
