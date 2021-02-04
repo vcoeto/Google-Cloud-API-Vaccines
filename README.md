@@ -90,8 +90,11 @@ cómo está estructurada la base de datos en la parte de Mongodb :
 *[Incluya aquí una explicación de la solución utilizada para el frontend del proyecto. No olvide incluir las ligas o referencias donde se puede encontrar información de los lenguajes de programación, frameworks y librerías utilizadas.]*
 
 #### 3.3.1 Lenguaje de programación
+El usuario interactua con html, el cual se comunicará con python para ejecutar funciones
 #### 3.3.2 Framework
+El framework que se usa es Flask
 #### 3.3.3 Librerías de funciones o dependencias
+Flask, jsonify, reques, redirect, render_template, url_for, session, pymongo, MongoClient, bson, json_util, bson.objectid, ObjecttId, flask_pymongo
 
 ### 3.4 API o backend
 
